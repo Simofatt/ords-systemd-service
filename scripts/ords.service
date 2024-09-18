@@ -1,0 +1,21 @@
+[Unit]
+Description=Oracle REST Data Services
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+GuessMainPID=no
+ExecStart=/home/mfatehi/ords/bin/ords  serve --port 8086
+EnvironmentFile=/home/mfatehi/ords/linux-support/ords.conf
+WorkingDirectory=/home/mfatehi/ords
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=60
+
+#sends logs to the system journal == access it via sudo journalctl -u ords.service -n 200
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target graphical.target
+
